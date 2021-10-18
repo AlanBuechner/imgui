@@ -24,7 +24,7 @@ project "ImGui"
     }
 
     includedirs{
-        "imgui"
+        "$(ProjectDir)"
     }
     
     filter "system:windows"
