@@ -753,7 +753,7 @@ void ImGui::TableUpdateLayout(ImGuiTable* table)
             column->InitStretchWeightOrWidth = -1.0f;
         }
 
-        // Update Enabled state, mark settings and sort specs dirty
+        // Update Enabled state, mark settings and sort specs m_Dirty
         if (!(table->Flags & ImGuiTableFlags_Hideable) || (column->Flags & ImGuiTableColumnFlags_NoHide))
             column->IsUserEnabledNextFrame = true;
         if (column->IsUserEnabled != column->IsUserEnabledNextFrame)
@@ -1751,7 +1751,7 @@ void ImGui::TableEndRow(ImGuiTable* table)
     if (g.LogEnabled)
         LogRenderedText(NULL, "|");
 
-    // Position cursor at the bottom of our row so it can be used for e.g. clipping calculation. However it is
+    // m_Position cursor at the bottom of our row so it can be used for e.g. clipping calculation. However it is
     // likely that the next call to TableBeginCell() will reposition the cursor to take account of vertical padding.
     window->DC.CursorPos.y = table->RowPosY2;
 
@@ -2771,8 +2771,8 @@ void ImGui::TableSortSpecsBuild(ImGuiTable* table)
     {
         TableSortSpecsSanitize(table);
         table->SortSpecsMulti.resize(table->SortSpecsCount <= 1 ? 0 : table->SortSpecsCount);
-        table->SortSpecs.SpecsDirty = true; // Mark as dirty for user
-        table->IsSortSpecsDirty = false; // Mark as not dirty for us
+        table->SortSpecs.SpecsDirty = true; // Mark as m_Dirty for user
+        table->IsSortSpecsDirty = false; // Mark as not m_Dirty for us
     }
 
     // Write output
@@ -3148,8 +3148,8 @@ void ImGui::TableDrawContextMenu(ImGuiTable* table)
 //-------------------------------------------------------------------------
 // [Init] 1: TableSettingsHandler_ReadXXXX()   Load and parse .ini file into TableSettings.
 // [Main] 2: TableLoadSettings()               When table is created, bind Table to TableSettings, serialize TableSettings data into Table.
-// [Main] 3: TableSaveSettings()               When table properties are modified, serialize Table data into bound or new TableSettings, mark .ini as dirty.
-// [Main] 4: TableSettingsHandler_WriteAll()   When .ini file is dirty (which can come from other source), save TableSettings into .ini file.
+// [Main] 3: TableSaveSettings()               When table properties are modified, serialize Table data into bound or new TableSettings, mark .ini as m_Dirty.
+// [Main] 4: TableSettingsHandler_WriteAll()   When .ini file is m_Dirty (which can come from other source), save TableSettings into .ini file.
 //-------------------------------------------------------------------------
 
 // Clear and initialize empty settings instance
